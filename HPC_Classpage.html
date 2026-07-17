@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+  ::selection{background:#ff5c8a;color:#fff}
+  @keyframes floatY{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-38px) rotate(var(--r2,8deg))}}
+  @keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.55}}
+  @keyframes waveShift{0%{transform:translateX(0)}100%{transform:translateX(-25%)}}
+  @keyframes hueTitle{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+  @keyframes popIn{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+  @keyframes rise{0%{transform:translateY(24px);opacity:0}100%{transform:translateY(0);opacity:1}}
+  @keyframes modalIn{0%{transform:translateY(20px) scale(.96);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
+  @keyframes fadeIn{0%{opacity:0}100%{opacity:1}}
+</style>
+</helmet>
+<div style="{{ pageStyle }}">
+
+  <button onClick="{{ toggleTheme }}" style="{{ toggleStyle }}" aria-label="Toggle color theme">{{ toggleLabel }}</button>
+
+  <!-- floating background symbols -->
+  <div style="position:absolute;inset:0;pointer-events:none;z-index:0">
+    <sc-for list="{{ symbols }}" as="s" hint-placeholder-count="18">
+      <span style="{{ s.style }}">{{ s.ch }}</span>
+    </sc-for>
+  </div>
+  <div style="{{ gridStyle }}"></div>
+
+  <div style="position:relative;z-index:2;max-width:1120px;margin:0 auto;padding:34px 24px 60px">
+
+    <!-- ===================== HERO CARD ===================== -->
+    <div style="{{ heroCard }}">
+      <div style="display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border-radius:999px;border:1px solid {{ chipBorder }};background:{{ chipBg }};font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:{{ mutedColor }}">
+        <span style="width:8px;height:8px;border-radius:50%;background:#2fce8f;box-shadow:0 0 12px #2fce8f;display:inline-block"></span>
+        South Fayette High School
+      </div>
+      <h1 style="margin:16px 0 0;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(40px,6vw,74px);line-height:.98;letter-spacing:-.02em;background:linear-gradient(100deg,#ff5c8a,#ffb020,#2fce8f,#4c7dff,#b57bff,#ff5c8a);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:hueTitle 9s linear infinite">Honors Precalculus</h1>
+      <p style="{{ heroSubStyle }}">Curves, functions &amp; infinite series — your launchpad to calculus. Explore each module, track the schedule, and grab every tool you need for the year.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px">
+        <sc-for list="{{ chips }}" as="c" hint-placeholder-count="3">
+          <span style="{{ c.style }}">{{ c.label }}</span>
+        </sc-for>
+      </div>
+
+      <!-- animated sine wave -->
+      <div style="position:relative;height:96px;margin:22px -8px 0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)">
+        <svg viewBox="0 0 800 120" preserveAspectRatio="none" style="position:absolute;left:0;top:0;width:200%;height:100%;animation:waveShift 7s linear infinite">
+          <path d="M0,60 C50,10 100,10 150,60 C200,110 250,110 300,60 C350,10 400,10 450,60 C500,110 550,110 600,60 C650,10 700,10 750,60 C800,110 850,110 900,60 C950,10 1000,10 1050,60 C1100,110 1150,110 1200,60 C1250,10 1300,10 1350,60 C1400,110 1450,110 1500,60 C1550,10 1600,10 1650,60" fill="none" stroke="#4c7dff" stroke-width="3" opacity=".8"/>
+          <path d="M0,60 C50,110 100,110 150,60 C200,10 250,10 300,60 C350,110 400,110 450,60 C500,10 550,10 600,60 C650,110 700,110 750,60 C800,10 850,10 900,60 C950,110 1000,110 1050,60 C1100,10 1150,10 1200,60 C1250,110 1300,110 1350,60 C1400,10 1450,10 1500,60 C1550,110 1600,110 1650,60" fill="none" stroke="#ff5c8a" stroke-width="3" opacity=".6"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ===================== TWO COLUMN ===================== -->
+    <div style="display:grid;grid-template-columns:{{ colTemplate }};gap:22px;margin-top:22px;align-items:start">
+
+      <!-- ============ LEFT COLUMN ============ -->
+      <div style="display:flex;flex-direction:column;gap:22px;min-width:0">
+
+        <!-- 01 START HERE -->
+        <section style="{{ panelStyle }}">
+          <div style="{{ panelHead }}"><span style="color:#4c7dff">01</span> <span style="opacity:.4">//</span> START HERE</div>
+          <p style="font-size:15px;line-height:1.55;color:{{ mutedColor }};margin-bottom:16px">New to the course? Get set up and know what to expect before Week 1.</p>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ startHere }}" as="l" hint-placeholder-count="3">
+              <a href="{{ l.url }}" target="_blank" rel="noopener" style="{{ stepStyle }}">
+                <span style="{{ l.badge }}">{{ l.n }}</span>
+                <span style="flex:1;font-weight:500">{{ l.label }}</span>
+                <span style="opacity:.5">↗</span>
+              </a>
+            </sc-for>
+          </div>
+        </section>
+
+        <!-- 02 COURSE ROADMAP -->
+        <section style="{{ panelStyle }}">
+          <div style="{{ panelHead }}"><span style="color:#b57bff">02</span> <span style="opacity:.4">//</span> COURSE ROADMAP</div>
+          <p style="font-size:15px;line-height:1.55;color:{{ mutedColor }};margin-bottom:18px">Tap any module to view its full learning objectives.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px">
+            <sc-for list="{{ modules }}" as="m" hint-placeholder-count="12">
+              <div onClick="{{ m.open }}" style="{{ m.card }}">
+                <div style="{{ m.numWrap }}">
+                  <sc-if value="{{ m.isExam }}" hint-placeholder-val="{{ false }}"><span style="font-size:18px">★</span></sc-if>
+                  <sc-if value="{{ m.notExam }}" hint-placeholder-val="{{ true }}">{{ m.num }}</sc-if>
+                </div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;line-height:1.25;color:{{ m.textColor }}">{{ m.name }}</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-top:8px;color:{{ m.color }}">{{ m.tag }} →</div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <!-- 03 TENTATIVE PLANNER -->
+        <section style="{{ panelStyle }}">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <div style="{{ panelHeadInline }}"><span style="color:#2fce8f">03</span> <span style="opacity:.4">//</span> TENTATIVE PLANNER</div>
+            <a href="{{ plannerUrl }}" target="_blank" rel="noopener" style="{{ plannerBtn }}">🗓️ Open full planner →</a>
+          </div>
+          <p style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.06em;color:{{ mutedColor }};margin:10px 0 18px">// tentative schedule · subject to change</p>
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <sc-for list="{{ weeks }}" as="w" hint-placeholder-count="2">
+              <div>
+                <div style="{{ w.head }}">{{ w.label }}</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ w.days }}" as="d" hint-placeholder-count="5">
+                    <div style="{{ d.row }}">
+                      <div style="{{ d.dayCol }}">
+                        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;color:{{ d.dayColor }}">{{ d.day }}</div>
+                        <div style="font-family:'Space Mono',monospace;font-size:11px;color:{{ mutedColor }}">{{ d.date }}</div>
+                      </div>
+                      <div style="flex:1;min-width:0">
+                        <div style="font-size:14px;font-weight:500;color:{{ textColor }}">{{ d.section }}</div>
+                        <sc-if value="{{ d.hasHw }}" hint-placeholder-val="{{ false }}">
+                          <div style="{{ d.hwStyle }}"><span style="opacity:.7">✎</span> {{ d.homework }}</div>
+                        </sc-if>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+
+      <!-- ============ RIGHT SIDEBAR ============ -->
+      <aside style="display:flex;flex-direction:column;gap:22px;min-width:0">
+
+        <!-- INSTRUCTORS -->
+        <section style="{{ sideStyle }}">
+          <div style="{{ sideHead }}">// INSTRUCTORS</div>
+          <div style="display:flex;flex-direction:column;gap:16px;margin-top:14px">
+            <sc-for list="{{ teachers }}" as="t" hint-placeholder-count="2">
+              <div>
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="{{ t.badge }}">{{ t.initials }}</div>
+                  <div>
+                    <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;color:{{ t.text }}">{{ t.name }}</div>
+                    <div style="font-size:12px;color:{{ t.muted }}">Honors Precalculus</div>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:5px;margin-top:10px;font-size:13px">
+                  <div style="{{ t.linkStyle }}"><span style="opacity:.6">✉</span> {{ t.email }}</div>
+                  <div style="display:flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;color:{{ t.muted }}"><span style="opacity:.6">☎</span> {{ t.phone }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <!-- RESOURCE GROUPS -->
+        <sc-for list="{{ sideGroups }}" as="g" hint-placeholder-count="3">
+          <section style="{{ g.card }}">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="{{ g.icon }}">{{ g.emoji }}</span>
+              <div style="{{ g.head }}">{{ g.title }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px;margin-top:12px">
+              <sc-for list="{{ g.links }}" as="l" hint-placeholder-count="3">
+                <a href="{{ l.url }}" target="_blank" rel="noopener" style="{{ g.linkStyle }}">
+                  <span style="flex:1">{{ l.label }}</span><span style="opacity:.5">→</span>
+                </a>
+              </sc-for>
+            </div>
+          </section>
+        </sc-for>
+      </aside>
+    </div>
+
+    <!-- FOOTER -->
+    <footer style="text-align:center;margin-top:40px;color:{{ footerColor }};font-size:13px">
+      <div style="{{ footerRule }}"></div>
+      <span style="font-family:'Space Mono',monospace">f(x) = </span> Honors Precalculus · South Fayette High School · Mrs. Ullom &amp; Mrs. Ebersole
+    </footer>
+  </div>
+
+  <!-- ===================== MODAL ===================== -->
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeModule }}" style="{{ overlayStyle }}">
+      <div onClick="{{ stop }}" style="{{ modalStyle }}">
+        <div style="{{ modalHeader }}">
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;color:#0a0e27">{{ modal.chapter }}</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:26px;line-height:1.1;margin-top:4px;color:#0a0e27">{{ modal.name }}</div>
+          </div>
+          <button onClick="{{ closeModule }}" style="{{ closeBtn }}" aria-label="Close">✕</button>
+        </div>
+        <div style="{{ modalBody }}">
+          <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:{{ modal.color }};margin-bottom:14px">Learning Objectives · You will be able to</div>
+          <sc-for list="{{ modal.objectives }}" as="o" hint-placeholder-count="6">
+            <div style="{{ modal.objStyle }}">
+              <span style="{{ modal.bullet }}">✓</span>
+              <span style="flex:1;line-height:1.5">{{ o }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1120,&quot;height&quot;:1000}}">
+class Component extends DCLogic {
+  state = { dark: true, openIndex: null };
+
+  renderVals() {
+    const dark = this.state.dark;
+    const palette = ["#ff5c8a","#ffb020","#2fce8f","#4c7dff","#b57bff","#57d8ff"];
+    const sheetId = "1YvgeZw_JgcdojByagGVVqWhqAzxrp9bjye_4_Wg6L70";
+    const gid = "118090459";
+    const plannerUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/edit?gid=${gid}#gid=${gid}`;
+    const plannerEmbed = `https://docs.google.com/spreadsheets/d/${sheetId}/htmlview?gid=${gid}&widget=true&headers=false`;
+
+    const T = dark ? {
+      page:"radial-gradient(1200px 700px at 80% -10%,#1b1b57 0%,transparent 60%),radial-gradient(1000px 600px at 0% 20%,#122a55 0%,transparent 55%),#080a1f",
+      text:"#eef1ff", muted:"#9aa6d8", sub:"#c3ccf5", footer:"#7f8ac2",
+      panel:"linear-gradient(160deg,rgba(20,26,64,.72),rgba(12,16,42,.72))",
+      side:"linear-gradient(160deg,rgba(24,30,72,.72),rgba(14,18,48,.72))",
+      inner:"rgba(127,166,255,.06)", border:"rgba(127,166,255,.16)", grid:"rgba(90,120,255,.09)",
+      chipBg:"rgba(20,26,66,.6)", chipBorder:"rgba(127,166,255,.35)",
+      linkText:"#dbe1ff", modalBg:"#0f1436", overlay:"rgba(6,8,24,.74)",
+      toggleBg:"rgba(20,26,66,.7)", toggleBorder:"rgba(127,166,255,.3)"
+    } : {
+      page:"radial-gradient(1200px 700px at 80% -10%,#ffdcec 0%,transparent 60%),radial-gradient(1000px 600px at 0% 20%,#d8e6ff 0%,transparent 55%),#f4f6ff",
+      text:"#1a1f45", muted:"#5c6493", sub:"#3d4576", footer:"#8089b8",
+      panel:"linear-gradient(160deg,#ffffff,#f2f5ff)",
+      side:"linear-gradient(160deg,#ffffff,#eef2ff)",
+      inner:"rgba(76,125,255,.06)", border:"rgba(76,125,255,.16)", grid:"rgba(76,125,255,.10)",
+      chipBg:"rgba(255,255,255,.75)", chipBorder:"rgba(76,125,255,.28)",
+      linkText:"#2a3160", modalBg:"#ffffff", overlay:"rgba(30,36,80,.34)",
+      toggleBg:"rgba(255,255,255,.8)", toggleBorder:"rgba(76,125,255,.28)"
+    };
+
+    // background symbols
+    const chars = ["∑","∫","π","√","∞","θ","Δ","sin","f(x)","≈","λ","∂","x²","e","≠","φ","cos","%"];
+    let seed = 7;
+    const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+    const symbols = chars.map((ch, i) => {
+      const size = 22 + rnd() * 50;
+      const r = (rnd()*30-15).toFixed(1), r2 = (rnd()*30-15).toFixed(1);
+      const style = ["position:absolute",`top:${(rnd()*96).toFixed(1)}%`,`left:${(rnd()*96).toFixed(1)}%`,
+        "font-family:'Space Mono',monospace",`font-size:${size.toFixed(0)}px`,`color:${palette[i%palette.length]}`,
+        `opacity:${((dark?0.10:0.09)+rnd()*(dark?0.16:0.10)).toFixed(2)}`,`--r:${r}deg`,`--r2:${r2}deg`,
+        `animation:floatY ${(7+rnd()*8).toFixed(1)}s ease-in-out ${(rnd()*5).toFixed(1)}s infinite, twinkle ${(4+rnd()*4).toFixed(1)}s ease-in-out infinite`,
+        "will-change:transform"].join(";");
+      return { ch, style };
+    });
+
+    // chips
+    const chips = [{
+      label:"Level: Honors",
+      style:"font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.08em;padding:7px 14px;border-radius:999px;border:1px solid transparent;color:#0a0e27;background:linear-gradient(120deg,#4c7dff,#57d8ff);box-shadow:0 8px 22px -8px #4c7dff"
+    }];
+
+    // teachers
+    const mkTeacher = (name, email, phone, initials, c1, c2) => ({
+      name, email, phone, initials, text:T.text, muted:T.muted, mailto:`mailto:${email}`,
+      badge:`flex:none;width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;color:#0a0e27;background:linear-gradient(140deg,${c1},${c2});box-shadow:0 6px 18px -8px ${c1}`,
+      linkStyle:`display:flex;align-items:center;gap:8px;color:${c1};text-decoration:none;font-weight:500;word-break:break-all`
+    });
+    const teachers = [
+      mkTeacher("Mrs. Ullom","mlullom@southfayette.org","412-221-4542 ext 797","U","#ff5c8a","#ffb020"),
+      mkTeacher("Mrs. Ebersole","ssebersole@southfayette.org","412-221-4542 ext 781","E","#4c7dff","#b57bff")
+    ];
+
+    // modules + objectives
+    const raw = [
+      ["Function Characteristics","#4c7dff",false,"Chapter 1",[
+        "Determine the symmetry of a graph algebraically.","Find the domain of a function.",
+        "Determine intervals on which functions are increasing or decreasing.",
+        "Determine relative minimum and relative maximum values of functions.",
+        "Determine the maximum volume or minimum surface area of an application.",
+        "Determine the average rate of change of a function.","Determine the difference quotient of a function.",
+        "Identify even and odd functions.",
+        "Recognize graphs of parent functions and use transformations (stretches, shifts, reflections) to sketch graphs.",
+        "Combine (add, subtract, multiply, divide) functions and compose functions.",
+        "Use combinations and compositions of functions to model and solve real-life problems.",
+        "Determine the domain of combined and composed functions.",
+        "Find inverse functions informally and verify that two functions are inverses of each other.",
+        "Use graphs and algebra to verify that two functions are inverses.",
+        "Use the Horizontal Line Test to determine whether functions are one-to-one.",
+        "Determine the inverse of a function algebraically and state the domain."]],
+      ["Polynomial Functions","#b57bff",false,"Chapter 2",[
+        "Analyze graphs of quadratic functions.",
+        "Write quadratic functions in standard/vertex form and use the results to sketch their graphs.",
+        "Find minimum and maximum values of quadratic functions in real-life applications.",
+        "Use transformations to sketch graphs of polynomial functions.",
+        "Use the leading coefficient and degree to determine end behavior of graphs.",
+        "Determine the degree of a polynomial given standard or factored form.",
+        "Find real zeros of polynomial functions and use them as sketching aids.",
+        "Use the Intermediate Value Theorem to help locate real zeros.",
+        "Use long division to divide polynomials by other polynomials.",
+        "Use synthetic division to divide polynomials by binomials.",
+        "Use the Remainder Theorem and the Factor Theorem.",
+        "Use the imaginary unit to write complex numbers.","Add, subtract, and multiply complex numbers.",
+        "Use complex conjugates to write quotients of complex numbers in standard form.",
+        "Find complex solutions of quadratic equations.",
+        "Use the Fundamental Theorem of Algebra to determine numbers of zeros.",
+        "Find rational zeros of polynomial functions.","Find complex zeros using conjugate pairs.",
+        "Find zeros of polynomials by factoring.","Write the equation of a polynomial in factored form.",
+        "Use Descartes's Rule of Signs to determine possible numbers of positive/negative zeros.",
+        "Find zeros of polynomials in real-life applications.",
+        "Approximate maximum and minimum values of a polynomial using technology."]],
+      ["Rational Functions","#2fce8f",false,"Chapter 2",[
+        "Find domains of rational functions.",
+        "Find vertical and horizontal asymptotes of graphs of rational functions.",
+        "Sketch graphs of rational functions that have slant or quadratic asymptotes.",
+        "Describe asymptotes and end behavior using limit notation.",
+        "Use rational functions to model and solve real-life problems.",
+        "Solve polynomial and rational inequalities.",
+        "Use nonlinear inequalities to model and solve real-life problems.",
+        "Determine the end behavior of a rational function."]],
+      ["Exponential & Logarithmic Functions","#ffb020",false,"Chapter 3",[
+        "Recognize and evaluate exponential functions.",
+        "Graph exponential functions and use the One-to-One Property.",
+        "Recognize, evaluate, and graph the natural exponential function.",
+        "Use exponential functions to model and solve real-life problems.",
+        "Recognize and evaluate logarithmic functions.","Graph logarithmic functions.",
+        "Recognize, evaluate, and graph natural logarithmic functions.",
+        "Use the change-of-base formula to rewrite and evaluate logarithmic expressions.",
+        "Use properties of logarithms to evaluate or rewrite logarithmic expressions.",
+        "Use properties of logarithms to expand or condense logarithmic expressions.",
+        "Solve simple exponential and logarithmic equations.","Solve more complicated exponential equations.",
+        "Solve more complicated logarithmic equations.",
+        "Use exponential and logarithmic equations to model and solve real-life problems.",
+        "Recognize the most common types of models involving exponential and logarithmic functions.",
+        "Use exponential growth and decay functions to model and solve real-life problems.",
+        "Use logistic growth functions to model and solve real-life problems."]],
+      ["Midterm Exam","#ff5c5c",true,"Modules 1–4",[
+        "Comprehensive assessment covering all previously listed objectives from Modules 1–4: function characteristics, polynomial functions, rational functions, and exponential & logarithmic functions."]],
+      ["Sequence & Series","#57d8ff",false,"Chapter 9 · Sec 1–3",[
+        "Use sequence notation to write the terms of sequences.","Use factorial notation.",
+        "Use summation notation to write sums.","Find the sums of series.",
+        "Use sequences and series to model and solve real-life problems.",
+        "Recognize, write, and find the nth terms of arithmetic sequences.",
+        "Find nth partial sums of arithmetic sequences.",
+        "Use arithmetic sequences to model and solve real-life problems.",
+        "Recognize, write, and find the nth terms of geometric sequences.",
+        "Find the sum of a finite geometric sequence.","Find the sum of an infinite geometric series.",
+        "Use geometric sequences to model and solve real-life problems."]],
+      ["Basic Trigonometry","#ff5c8a",false,"Chapter 4",[
+        "Convert angle measures between radians and degrees.",
+        "Identify a unit circle and describe its relationship to real numbers.",
+        "Evaluate trigonometric functions using the unit circle.",
+        "Use domain and period to evaluate sine and cosine functions, and use a calculator to evaluate trig functions.",
+        "Evaluate trigonometric functions of acute angles.","Use fundamental trigonometric identities.",
+        "Use trigonometric functions to model and solve real-life problems.",
+        "Evaluate trigonometric functions of any angle.","Find reference angles.",
+        "Evaluate trigonometric functions of real numbers.",
+        "Sketch the graphs of sine, cosine, and tangent functions and their transformations.",
+        "Use amplitude and period to help sketch the graphs of sine and cosine functions.",
+        "Sketch the graphs of tangent, cotangent, and secant functions (including transformed).",
+        "Evaluate and graph the inverse trigonometric functions.",
+        "Evaluate compositions with inverse trigonometric functions.",
+        "Solve real-life problems involving sinusoids.",
+        "Solve real-life applications involving trigonometry."]],
+      ["Analytic Trigonometry","#7c8bff",false,"Chapter 5",[
+        "Recognize and write the fundamental trigonometric identities.",
+        "Use the fundamental identities to evaluate trigonometric functions.",
+        "Use the fundamental identities to simplify trigonometric expressions.",
+        "Use the fundamental identities to rewrite trigonometric expressions.",
+        "Verify (prove) trigonometric identities.",
+        "Use standard algebraic techniques to solve trigonometric equations.",
+        "Solve trigonometric equations of quadratic type.",
+        "Solve trigonometric equations involving multiple angles.",
+        "Use inverse trigonometric functions to solve trigonometric equations.",
+        "Use sum & difference formulas to evaluate functions, verify identities, and solve equations.",
+        "Use multiple-angle formulas to rewrite and evaluate trigonometric functions.",
+        "Use power-reducing formulas to rewrite trigonometric expressions.",
+        "Use half-angle formulas to rewrite and evaluate trigonometric functions.",
+        "Use product-to-sum and sum-to-product formulas to rewrite and evaluate expressions.",
+        "Use trigonometric formulas to rewrite real-life models."]],
+      ["Conics","#ffd93d",false,"Chapter 10 · Sec 2–4",[
+        "Recognize a conic as the intersection of a plane and a double-napped cone.",
+        "Write equations of parabolas in standard form.",
+        "Use the reflective property of parabolas to write equations of tangent lines.",
+        "Write equations of ellipses in standard form and sketch ellipses.",
+        "Use properties of ellipses to model and solve real-life problems.",
+        "Write equations of hyperbolas in standard form.",
+        "Find asymptotes of and sketch hyperbolas.",
+        "Use properties of hyperbolas to solve real-life problems."]],
+      ["Parametric & Polars","#2fce8f",false,"Chapter 10 · Sec 6–8",[
+        "Evaluate sets of parametric equations for given values of the parameter.",
+        "Sketch curves represented by sets of parametric equations.",
+        "Rewrite sets of parametric equations as single rectangular equations by eliminating the parameter.",
+        "Find sets of parametric equations for graphs.",
+        "Plot points in the polar coordinate system.",
+        "Convert points from rectangular to polar form and vice versa.",
+        "Convert equations from rectangular to polar form and vice versa.",
+        "Graph polar equations by point plotting.",
+        "Use tables of values to sketch graphs of polar equations.",
+        "Recognize special polar graphs."]],
+      ["Final Exam","#ff5c5c",true,"All Modules",[
+        "Comprehensive cumulative assessment covering all previously listed objectives from every module in the course."]],
+      ["Limits & Intro to Calculus","#57d8ff",false,"Extensions",[
+        "Understand the limit concept.","Use the definition of a limit to estimate limits.",
+        "Determine whether limits of functions exist.",
+        "Use properties of limits and direct substitution to evaluate limits.",
+        "Use the dividing-out technique to evaluate limits of functions.",
+        "Use the rationalizing technique to evaluate limits of functions."]]
+    ];
+    let n = 0;
+    const modules = raw.map((r, i) => {
+      const [name, color, isExam, tag, objectives] = r;
+      if (!isExam) n++;
+      const bg = isExam
+        ? (dark ? `linear-gradient(150deg,${color}26,rgba(14,18,48,.55))` : `linear-gradient(150deg,${color}1c,#ffffff)`)
+        : T.inner;
+      const bd = isExam ? `1px solid ${color}88` : `1px solid ${T.border}`;
+      return {
+        name, color, tag, objectives, isExam:!!isExam, notExam:!isExam, num:n, textColor:T.text,
+        open: () => this.setState({ openIndex: i }),
+        card:`position:relative;cursor:pointer;padding:18px 16px;border-radius:15px;background:${bg};border:${bd};transition:transform .16s;animation:popIn .45s ease ${(i*0.03).toFixed(2)}s both`,
+        numWrap:`width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-family:'Space Mono',monospace;font-weight:700;font-size:14px;margin-bottom:12px;color:#0a0e27;background:${color};box-shadow:0 5px 14px -5px ${color}`
+      };
+    });
+
+    // start here steps
+    const startHere = [
+      ["Read the Syllabus & classroom expectations","https://docs.google.com/document/d/1rWEpBRMS44J662eNGCdcb39UQsyLPDPP0ACXXmqGc1s/edit?tab=t.0"],
+      ["Review the Big Ideas for the course","https://docs.google.com/document/d/1hrvY-gtqUqWSnC7EHt59DCUvLoY0EigpM5UrfXJ4V2I/edit?tab=t.0"],
+      ["Bookmark the Homework Assignment List","https://docs.google.com/document/d/1yoNWewAaSnwmGJXzQJGBRIvpjxb9StgSC1lsHBxO4OI/edit?usp=sharing"]
+    ].map(([label, url], i) => ({
+      label, url, n:`${i+1}`,
+      badge:`flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-family:'Space Mono',monospace;font-weight:700;font-size:12px;color:${palette[i%3]};background:${palette[i%3]}1e;border:1px solid ${palette[i%3]}55`
+    }));
+
+    // tentative schedule (native render)
+    const dayColors = { Monday:"#ff5c8a", Tuesday:"#ffb020", Wednesday:"#2fce8f", Thursday:"#4c7dff", Friday:"#b57bff" };
+    const weekDefs = [
+      ["This Week","#2fce8f",[
+        ["Monday","7/13","—",""],
+        ["Tuesday","7/14","—",""],
+        ["Wednesday","7/15","Class Intro","Student Questionnaire · Upload summer work"],
+        ["Thursday","7/16","Section 1.2","Module 1 Assignment A"],
+        ["Friday","7/17","Sections 1.2 & 1.5",""]
+      ]],
+      ["Upcoming Week","#4c7dff",[
+        ["Monday","7/20","Sections 1.2 & 1.5","Module 1 Assignment B"],
+        ["Tuesday","7/21","Section 1.4","Module 1 Assignment C"],
+        ["Wednesday","7/22","Summer Work Review / Q&A","Review"],
+        ["Thursday","7/23","Summer Work Quiz",""],
+        ["Friday","7/24","Section 1.5: Max/Min",""]
+      ]]
+    ];
+    const weeks = weekDefs.map(([label, accent, days]) => ({
+      label,
+      head:`display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${accent};padding:5px 12px;border-radius:999px;border:1px solid ${accent}55;background:${accent}14;margin-bottom:12px`,
+      days: days.map(([day, date, section, homework]) => ({
+        day, date, section: section || "—", homework, hasHw: !!homework,
+        dayColor: dayColors[day] || T.text,
+        row:`display:flex;gap:14px;align-items:flex-start;padding:12px 14px;border-radius:13px;background:${T.inner};border:1px solid ${T.border};border-left:3px solid ${dayColors[day] || T.border}`,
+        dayCol:"flex:none;width:82px",
+        hwStyle:`display:flex;align-items:center;gap:7px;margin-top:5px;font-size:12.5px;color:${T.muted};font-family:'Space Mono',monospace`
+      }))
+    }));
+
+    // sidebar resource groups
+    const groupDefs = [
+      ["Get Help","🆘","#ff5c8a",[
+        ["Math Lab Schedule","https://docs.google.com/document/d/10Xk1PFdBwJQNlnuxjLOyG-xPcVWPf3GIVIBZnGLn5pc/edit?usp=sharing"],
+        ["Homework Help (CalcChat)","https://www.calcchat.com/book/Precalculus-with-Limits-4e:-High-School/"],
+        ["Math GPT","https://math-gpt.org/"]]],
+      ["Content Resources","📈","#2fce8f",[
+        ["Trig Parent Graphs","https://www.desmos.com/calculator/9iwdrebmxe"],
+        ["Trig Inverse Graphs","https://www.desmos.com/calculator/589405490a"],
+        ["Trig Identities List","https://drive.google.com/file/d/1JTFAAi4V9F-YR7m9Guh0KWl5GruBxReg/view?usp=sharing"]]],
+      ["Tools","🧮","#b57bff",[
+        ["TI Graphing Calculator Emulator","https://ti84calc.com/ti84calc"]]]
+    ];
+    const sideGroups = groupDefs.map(([title, emoji, color, links]) => ({
+      title, emoji,
+      links: links.map(([label, url]) => ({ label, url })),
+      card:`padding:22px;border-radius:20px;background:${T.side};border:1px solid ${color}33`,
+      icon:`flex:none;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:19px;background:${color}22;border:1px solid ${color}55`,
+      head:`font-family:'Space Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.06em;color:${T.text}`,
+      linkStyle:`display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;color:${T.linkText};font-size:14px;font-weight:500;transition:background .18s`
+    }));
+
+    // modal
+    const oi = this.state.openIndex;
+    const active = oi != null ? modules[oi] : null;
+    const modalObjColor = dark ? "#dbe1ff" : "#28305c";
+    const modal = active ? {
+      name: active.name, chapter: active.tag, color: active.color, objectives: active.objectives,
+      objStyle:`display:flex;gap:12px;align-items:flex-start;padding:11px 4px;font-size:15px;color:${modalObjColor};border-bottom:1px solid ${T.border}`,
+      bullet:`flex:none;width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:12px;font-weight:700;color:#0a0e27;background:${active.color};margin-top:1px`
+    } : null;
+
+    const panelHeadBase = `font-family:'Space Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.08em;color:${T.text}`;
+
+    return {
+      symbols, chips, teachers, modules, startHere, sideGroups, modal, plannerUrl, weeks,
+      textColor:T.text, mutedColor:T.muted, footerColor:T.footer,
+      chipBg:T.chipBg, chipBorder:T.chipBorder,
+      colTemplate:"minmax(0,1.9fr) minmax(0,1fr)",
+      modalOpen: oi != null,
+      closeModule: () => this.setState({ openIndex: null }),
+      stop: (e) => e.stopPropagation(),
+      toggleTheme: () => this.setState(s => ({ dark: !s.dark })),
+      toggleLabel: dark ? "☀︎ Light" : "☾ Dark",
+      pageStyle:`position:relative;min-height:100vh;overflow:hidden;background:${T.page};color:${T.text};transition:background .4s,color .4s`,
+      gridStyle:`position:absolute;inset:0;z-index:0;opacity:.35;background-image:linear-gradient(${T.grid} 1px,transparent 1px),linear-gradient(90deg,${T.grid} 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(circle at 50% 0%,#000 0%,transparent 70%);mask-image:radial-gradient(circle at 50% 0%,#000 0%,transparent 70%)`,
+      heroCard:`padding:32px 30px;border-radius:24px;background:${T.panel};border:1px solid ${T.border};box-shadow:0 30px 70px -50px #000;backdrop-filter:blur(6px);animation:rise .5s ease both`,
+      heroSubStyle:`margin:16px 0 0;max-width:640px;font-size:16px;line-height:1.6;color:${T.sub}`,
+      panelStyle:`padding:24px;border-radius:22px;background:${T.panel};border:1px solid ${T.border};box-shadow:0 24px 60px -50px #000`,
+      sideStyle:`padding:22px;border-radius:20px;background:${T.side};border:1px solid ${T.border}`,
+      stepStyle:`display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;background:${T.inner};border:1px solid ${T.border};color:${T.linkText};text-decoration:none;font-size:14px;transition:background .18s`,
+      panelHead:`${panelHeadBase};margin-bottom:14px`,
+      panelHeadInline:panelHeadBase,
+      sideHead:`font-family:'Space Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.08em;color:${T.muted}`,
+      plannerBtn:`font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;padding:8px 14px;border-radius:10px;color:#0a0e27;background:linear-gradient(120deg,#2fce8f,#57d8ff);text-decoration:none;box-shadow:0 10px 24px -14px #2fce8f`,
+      embedFrame:`border-radius:16px;overflow:hidden;border:1px solid ${T.border};background:${T.inner}`,
+      embedBar:`display:flex;align-items:center;gap:7px;padding:10px 14px;background:${T.inner};border-bottom:1px solid ${T.border}`,
+      footerRule:`height:1px;background:linear-gradient(90deg,transparent,${T.border},transparent);margin-bottom:20px`,
+      overlayStyle:`position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:24px;background:${T.overlay};backdrop-filter:blur(6px);animation:fadeIn .2s ease`,
+      modalStyle:`width:min(680px,100%);max-height:86vh;display:flex;flex-direction:column;border-radius:24px;overflow:hidden;background:${T.modalBg};box-shadow:0 40px 100px -30px rgba(0,0,0,.7);animation:modalIn .28s cubic-bezier(.2,.9,.3,1)`,
+      modalHeader: active ? `display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:26px 28px;background:linear-gradient(120deg,${active.color},${active.color}bb)` : "",
+      modalBody:`padding:22px 28px 30px;overflow-y:auto`,
+      closeBtn:`flex:none;width:36px;height:36px;border-radius:10px;border:none;cursor:pointer;background:rgba(10,14,39,.18);color:#0a0e27;font-size:15px;font-weight:700`
+    };
+  }
+}
+</script>
+</body>
+</html>
